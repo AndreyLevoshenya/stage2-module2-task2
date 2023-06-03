@@ -11,14 +11,15 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+    private static final String LOGIN_PAGE = "/login.jsp";
+    private static final String HELLO_PAGE = "/user/hello.jsp";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/login.jsp").forward(req, resp);
-        if(req.getSession().getAttribute("user") == null) {
-            resp.sendRedirect("/login.jsp");
+        if(req.getSession().getAttribute("user") != null) {
+            resp.sendRedirect(HELLO_PAGE);
         }
         else {
-            resp.sendRedirect("/user/hello.jsp");
+            req.getRequestDispatcher(LOGIN_PAGE).forward(req, resp);
         }
     }
 
@@ -27,11 +28,11 @@ public class LoginServlet extends HttpServlet {
         String user = req.getParameter("login");
         String password = req.getParameter("password");
         if(!Users.getInstance().getUsers().contains(user) || password == null || password.isEmpty()) {
-            resp.sendRedirect("/login.jsp");
+            req.getRequestDispatcher(LOGIN_PAGE).forward(req, resp);
         }
         else {
             req.getSession().setAttribute("user", "user");
-            resp.sendRedirect("user/hello.jsp");
+            resp.sendRedirect(HELLO_PAGE);
         }
     }
 }
