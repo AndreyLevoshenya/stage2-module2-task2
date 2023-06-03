@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String user = req.getParameter("login");
         String password = req.getParameter("password");
-        if(!Users.getInstance().getUsers().contains(user) || password == null || password.isEmpty()) {
+        if((user != null && !Users.getInstance().getUsers().contains(user)) || password == null || password.isEmpty()) {
             req.getRequestDispatcher(LOGIN_PAGE).forward(req, resp);
         }
         else {

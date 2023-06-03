@@ -19,7 +19,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         String path = req.getRequestURI();
-        if(path.contains("/user/")) {
+        if(path != null && path.contains("/user/")) {
             req.getSession().getAttribute("user");
         }
         else {
